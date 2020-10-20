@@ -1,14 +1,11 @@
 FROM node:slim
 
-COPY ./ /root/app
+COPY ./dist /root/app
 
 ENV TARGET=prod
 
 WORKDIR /root/app
 
-RUN yarn --production
-
-
-ENTRYPOINT [ "sh", "-c", "yarn start" ]
+ENTRYPOINT [ "sh", "-c", "node main.js" ]
 
 EXPOSE 3000

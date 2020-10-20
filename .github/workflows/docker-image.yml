@@ -16,6 +16,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
+        npm run build
         docker login --username shihaowang123 --password ${{ secrets.ALI_PASSWORD }} registry.cn-shanghai.aliyuncs.com
         docker build . --file Dockerfile --tag registry.cn-shanghai.aliyuncs.com/sdev/carrot-sprit-backend:latest
         docker push registry.cn-shanghai.aliyuncs.com/sdev/carrot-sprit-backend:latest
