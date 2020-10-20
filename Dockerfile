@@ -1,13 +1,14 @@
-FROM node:14.14-alpine
+FROM node:slim
 
-COPY . /home/app
+COPY ./ /root/app
 
 ENV TARGET=prod
 
-RUN npm install
+WORKDIR /root/app
 
-WORKDIR /home/app
+RUN yarn --production
 
-CMD [ "npm run start" ]
+
+ENTRYPOINT [ "sh", "-c", "yarn start" ]
 
 EXPOSE 3000
