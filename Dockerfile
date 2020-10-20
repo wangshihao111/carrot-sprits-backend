@@ -1,4 +1,4 @@
-FROM NODE:slim
+FROM node:14.14-alpine
 
 COPY . /home/app
 
