@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        - docker login --username shihaowang123 --password {{ALI_PASSWORD}}
+        - docker build . --file Dockerfile --tag registry.cn-shanghai.aliyuncs.com/sdev/carrot-sprit-backend:latest
+        - docker push registry.cn-shanghai.aliyuncs.com/sdev/carrot-sprit-backend:latest
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.2
+      with:
+        host: 47.102.122.82
+        username: root
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: docker pull registry.cn-shanghai.aliyuncs.com/sdev/carrot-sprit-backend:latest && docker rm -f sprits && docker run --name sprits -d -p 5300:3000 registry.cn-shanghai.aliyuncs.com/sdev/carrot-sprit-backend:latest
